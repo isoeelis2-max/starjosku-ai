@@ -339,6 +339,7 @@ chatForm.addEventListener('submit', async (e) => {
     sendButton.disabled = false;
   }
 });
+
 <script>
 const messages = document.getElementById('messages');
 const promptBox = document.getElementById('prompt');
@@ -357,7 +358,6 @@ function newChat() {
   conversation = [];
   home.style.display = 'block';
   promptBox.value = '';
-  promptBox.focus();
 }
 
 function section(name) {
@@ -384,7 +384,6 @@ chatForm.addEventListener('submit', async (e) => {
   user.className = 'message user';
   user.textContent = value;
   messages.appendChild(user);
-
   promptBox.value = '';
 
   const reply = document.createElement('div');

@@ -6,175 +6,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>STARJOSKU AI</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;700;800&display=swap');
 *{box-sizing:border-box}
-:root{--blue:#168cff;--cyan:#65d9ff;--purple:#9b58ff}
-body{
- margin:0;color:#eff7ff;font-family:Inter,Arial,sans-serif;
- background:#020817;min-height:100vh;overflow:hidden
-}
-#universe{
- position:fixed;inset:0;overflow:hidden;z-index:-2;
- background:
- radial-gradient(ellipse at 72% 80%,#19266c 0%,transparent 38%),
- radial-gradient(ellipse at 15% 65%,#101e59 0%,transparent 35%),
- radial-gradient(ellipse at 50% 30%,#091c48 0%,#020817 75%);
-}
-.stars,.stars2,.stars3{
- position:absolute;inset:-100%;
- background-image:
- radial-gradient(2px 2px at 20px 30px,#fff,transparent),
- radial-gradient(1px 1px at 90px 80px,#9bdcff,transparent),
- radial-gradient(2px 2px at 160px 140px,#fff,transparent),
- radial-gradient(1px 1px at 220px 40px,#fff,transparent),
- radial-gradient(2px 2px at 300px 190px,#80baff,transparent);
- background-size:350px 250px;
- animation:drift 100s linear infinite;
- opacity:.8
-}
-.stars2{background-size:230px 190px;animation-duration:145s;opacity:.45;transform:rotate(20deg)}
-.stars3{background-size:170px 230px;animation-duration:180s;opacity:.35;transform:rotate(-15deg)}
-@keyframes drift{to{transform:translate3d(300px,180px,0)}}
-.nebula{
- position:absolute;width:65vw;height:45vw;left:30%;top:40%;
- background:radial-gradient(ellipse,#253bd855,transparent 65%);
- filter:blur(35px);animation:pulse 12s ease-in-out infinite alternate
-}
-@keyframes pulse{to{opacity:.4;transform:scale(1.2)}}
-.moon{
- position:absolute;right:7%;top:7%;width:230px;height:230px;border-radius:50%;
- background:radial-gradient(circle at 35% 30%,#f1fcff,#76baff 25%,#285bb8 58%,#071b50 78%);
- box-shadow:0 0 35px #3b9fff,0 0 100px #126bff88,inset -25px -20px 45px #020b2b;
- opacity:.85
-}
-.moon:after{
- content:"";position:absolute;inset:0;border-radius:50%;
- background:radial-gradient(circle at 30% 25%,transparent 0 35%,#06112e88 70%)
-}
-.shooting{
- position:absolute;width:180px;height:2px;top:17%;left:-220px;
- background:linear-gradient(90deg,transparent,#fff,#55baff,transparent);
- transform:rotate(-25deg);filter:drop-shadow(0 0 7px #58baff);
- animation:shoot 8s linear infinite
-}
-.shooting.two{top:42%;animation-delay:4s;animation-duration:11s}
-@keyframes shoot{0%{left:-220px;opacity:0}5%{opacity:1}20%{left:120%;opacity:0}100%{left:120%;opacity:0}}
-.layout{display:flex;height:100vh;position:relative}
-.sidebar{
- width:290px;flex-shrink:0;padding:28px 20px;
- background:linear-gradient(180deg,#020b20eF,#07132be8);
- border-right:1px solid #277bdb66;
- box-shadow:10px 0 50px #001b4580;
- display:flex;flex-direction:column;z-index:2;
- backdrop-filter:blur(18px)
-}
+body{margin:0;color:#eff7ff;font-family:Inter,Arial,sans-serif;background:#020817;min-height:100vh}
+#universe{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 72% 80%,#19266c,transparent 38%),radial-gradient(ellipse at 15% 65%,#101e59,transparent 35%),#020817}
+.stars{position:absolute;inset:-100%;background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 80px,#9bdcff,transparent),radial-gradient(2px 2px at 160px 140px,#fff,transparent);background-size:250px 200px;animation:drift 100s linear infinite}
+@keyframes drift{to{transform:translate(300px,180px)}}
+.moon{position:absolute;right:7%;top:7%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f1fcff,#76baff 25%,#285bb8 58%,#071b50 78%);box-shadow:0 0 35px #3b9fff,0 0 100px #126bff88}
+.layout{display:flex;min-height:100vh;position:relative}
+.sidebar{width:270px;flex-shrink:0;padding:28px 20px;background:linear-gradient(180deg,#020b20ef,#07132be8);border-right:1px solid #277bdb66;display:flex;flex-direction:column;z-index:2}
 .brand{text-align:center;margin-bottom:38px}
-.brand-moon{font-size:54px;color:#8bd5ff;text-shadow:0 0 15px #168cff,0 0 45px #168cff}
-.brand-name{font-family:Orbitron,sans-serif;font-weight:900;font-size:21px;letter-spacing:2px;text-shadow:0 0 15px #55aaff}
+.brand-moon{font-size:54px;color:#8bd5ff;text-shadow:0 0 25px #168cff}
+.brand-name{font-family:Orbitron,sans-serif;font-weight:900;font-size:21px;letter-spacing:2px}
 .brand-ai{font-family:Orbitron,sans-serif;font-size:13px;letter-spacing:8px;color:#68caff;margin-top:7px}
 .nav{display:flex;flex-direction:column;gap:13px}
-.nav button{
- display:flex;align-items:center;gap:15px;width:100%;
- padding:17px 18px;border-radius:24px;
- color:#dceaff;background:#071a3dcc;
- border:1px solid #236acb88;font-size:15px;font-weight:700;
- cursor:pointer;transition:.25s;
- box-shadow:inset 0 0 15px #0b4e9b22
-}
-.nav button:hover,.nav button.active{
- background:linear-gradient(110deg,#0756a9aa,#36228aaa);
- border-color:#52c5ff;box-shadow:0 0 20px #168cff66,inset 0 0 18px #168cff33;
- transform:translateX(3px)
-}
+.nav button{display:flex;align-items:center;gap:15px;width:100%;padding:17px 18px;border-radius:24px;color:#dceaff;background:#071a3dcc;border:1px solid #236acb88;font-size:15px;font-weight:700;cursor:pointer}
+.nav button:hover,.nav button.active{background:linear-gradient(110deg,#0756a9aa,#36228aaa);border-color:#52c5ff;box-shadow:0 0 20px #168cff66}
 .nav .symbol{font-size:23px;color:#78cfff;width:25px;text-align:center}
 .sidebar-bottom{margin-top:auto;text-align:center;color:#85a9d8;font-style:italic;line-height:1.6}
-.sidebar-bottom .star{font-size:30px;color:#64caff;text-shadow:0 0 18px #168cff}
-main{flex:1;min-width:0;overflow-y:auto;position:relative;padding:35px 5vw 30px}
-.topbar{display:flex;justify-content:flex-end;align-items:center;gap:12px}
-.top-pill{
- border:1px solid #397cc788;border-radius:30px;padding:10px 16px;
- background:#061a3b99;color:#a9d8ff;font-size:12px;font-weight:800;
- letter-spacing:1px;backdrop-filter:blur(12px)
-}
-.hero{text-align:center;margin:5vh auto 30px;position:relative}
-.hero h1{
- font-family:Orbitron,sans-serif;font-size:clamp(35px,5vw,66px);
- font-weight:900;letter-spacing:3px;margin:0;
- background:linear-gradient(180deg,#fff 15%,#8bd7ff 55%,#3985ff);
- -webkit-background-clip:text;background-clip:text;color:transparent;
- filter:drop-shadow(0 0 18px #168cff99)
-}
+.sidebar-bottom .star{font-size:30px;color:#64caff}
+main{flex:1;min-width:0;overflow-y:auto;padding:30px 5vw}
+.topbar{display:flex;justify-content:flex-end}
+.top-pill{border:1px solid #397cc788;border-radius:30px;padding:10px 16px;background:#061a3b99;color:#a9d8ff;font-size:12px;font-weight:800;letter-spacing:1px}
+.hero{text-align:center;margin:5vh auto 30px}
+.hero h1{font-family:Orbitron,sans-serif;font-size:clamp(35px,5vw,66px);font-weight:900;letter-spacing:3px;margin:0;background:linear-gradient(180deg,#fff 15%,#8bd7ff 55%,#3985ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px #168cff99)}
 .hero p{font-size:19px;color:#9acfff;font-weight:700;letter-spacing:2px}
-.hero-line{width:min(500px,80%);height:1px;margin:20px auto;background:linear-gradient(90deg,transparent,#47bfff,transparent);box-shadow:0 0 12px #168cff}
-.panel{
- width:min(900px,100%);margin:0 auto;padding:34px;
- border-radius:38px;border:1px solid #379dffbb;
- background:linear-gradient(135deg,#06183ddd,#080d2cdd);
- box-shadow:0 0 35px #087cff44,0 0 100px #4529ba33,inset 0 0 35px #236dba22;
- backdrop-filter:blur(22px);position:relative
-}
-.panel:before{
- content:"";position:absolute;inset:5px;border-radius:33px;
- border:1px solid #9bdcff18;pointer-events:none
-}
+.hero-line{width:min(500px,80%);height:1px;margin:20px auto;background:linear-gradient(90deg,transparent,#47bfff,transparent)}
+.panel{width:min(900px,100%);margin:0 auto;padding:34px;border-radius:38px;border:1px solid #379dffbb;background:linear-gradient(135deg,#06183ddd,#080d2cdd);box-shadow:0 0 35px #087cff44,0 0 100px #4529ba33;position:relative}
 .panel h2{text-align:center;font-size:29px;font-weight:900;margin:0 0 10px}
-.panel .hint{text-align:center;color:#9bbfe9;margin:0 0 30px}
+.hint{text-align:center;color:#9bbfe9;margin:0 0 30px}
 .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.action{
- min-height:130px;border:1px solid #348effaa;border-radius:27px;
- background:linear-gradient(145deg,#12366b,#07152f);
- color:white;cursor:pointer;padding:18px 10px;
- display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
- font-size:15px;font-weight:800;transition:.25s;
- box-shadow:inset 0 0 25px #187fff22,0 5px 25px #00143c
-}
-.action:hover{transform:translateY(-7px);box-shadow:0 0 28px #168cff99,inset 0 0 25px #168cff44;border-color:#9ce6ff}
-.action .ico{font-size:35px;color:#65d4ff;text-shadow:0 0 15px #168cff}
-.chatbox{
- width:min(900px,100%);margin:25px auto 0;
- border:1px solid #348fffaa;border-radius:30px;
- background:#04132bdc;box-shadow:0 0 28px #087cff55;
- display:flex;align-items:center;gap:12px;padding:10px 12px 10px 22px;
- backdrop-filter:blur(18px)
-}
+.action{min-height:130px;border:1px solid #348effaa;border-radius:27px;background:linear-gradient(145deg,#12366b,#07152f);color:white;cursor:pointer;padding:18px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:15px;font-weight:800}
+.action:hover{transform:translateY(-5px);box-shadow:0 0 28px #168cff99}
+.action .ico{font-size:35px;color:#65d4ff}
+.chatbox{width:min(900px,100%);margin:25px auto 0;border:1px solid #348fffaa;border-radius:30px;background:#04132bdc;box-shadow:0 0 28px #087cff55;display:flex;align-items:center;gap:12px;padding:10px 12px 10px 22px}
 .chatbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:16px;padding:13px}
 .chatbox input::placeholder{color:#86a8d2}
-.send{
- width:55px;height:55px;border-radius:50%;border:1px solid #a4e6ff;
- color:white;font-size:24px;cursor:pointer;
- background:radial-gradient(circle at 35% 30%,#53baff,#0754bd);
- box-shadow:0 0 22px #168cffaa
-}
-.send:hover{transform:scale(1.08)}
+.send{width:55px;height:55px;border-radius:50%;border:1px solid #a4e6ff;color:white;font-size:24px;cursor:pointer;background:radial-gradient(circle at 35% 30%,#53baff,#0754bd);box-shadow:0 0 22px #168cffaa}
+.send:disabled{opacity:.5;cursor:wait}
 #messages{width:min(900px,100%);margin:20px auto;display:flex;flex-direction:column;gap:12px}
-.message{padding:15px 20px;border-radius:23px;max-width:80%;line-height:1.5;background:#102b50dd;border:1px solid #3984ce66}
+.message{padding:15px 20px;border-radius:23px;max-width:85%;line-height:1.5;background:#102b50dd;border:1px solid #3984ce66;white-space:pre-wrap}
 .message.user{align-self:flex-end;background:#243a77dd;border-color:#7964e9}
-.section-title{font-size:32px;font-weight:900;margin:70px 0 20px}
-@media(max-width:760px){
- .sidebar{width:82px;padding:20px 9px}
- .brand-name{font-size:0}.brand-name:after{content:"SJ";font-size:18px}
- .brand-moon{font-size:35px}.brand-ai{display:none}
- .nav button{justify-content:center;padding:15px 5px;font-size:0}
- .nav .symbol{font-size:23px}
- .sidebar-bottom{font-size:0}
- main{padding:20px 13px}
- .moon{width:130px;height:130px;right:-20px;top:10%}
- .hero{margin-top:7vh}
- .panel{padding:25px 16px;border-radius:28px}
- .panel h2{font-size:22px}
- .actions{grid-template-columns:repeat(2,1fr)}
- .action{min-height:105px}
-}
+.message.assistant{align-self:flex-start}
+.section-title{font-size:32px;font-weight:900;margin:30px 0 10px;color:#9bdcff}
+.typing{color:#9bdcff;font-weight:700}
+.typing::after{content:"";display:inline-block;animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%,100%{content:"..."}}
+@media(max-width:760px){.sidebar{width:78px;padding:20px 8px}.brand-name{font-size:0}.brand-name:after{content:"SJ";font-size:18px}.brand-moon{font-size:35px}.brand-ai{display:none}.nav button{justify-content:center;padding:15px 5px;font-size:0}.nav .symbol{font-size:23px}.sidebar-bottom{font-size:0}main{padding:20px 13px}.moon{width:110px;height:110px;right:-20px}.panel{padding:25px 16px}.panel h2{font-size:22px}.actions{grid-template-columns:repeat(2,1fr)}.action{min-height:105px}}
 </style>
 </head>
 <body>
-<div id="universe">
- <div class="stars"></div><div class="stars2"></div><div class="stars3"></div>
- <div class="nebula"></div><div class="moon"></div>
- <div class="shooting"></div><div class="shooting two"></div>
-</div>
-
+<div id="universe"><div class="stars"></div><div class="moon"></div></div>
 <div class="layout">
 <aside class="sidebar">
  <div class="brand">
@@ -183,17 +65,13 @@ main{flex:1;min-width:0;overflow-y:auto;position:relative;padding:35px 5vw 30px}
   <div class="brand-ai">✦ AI ✦</div>
  </div>
  <nav class="nav">
-  <button class="active" onclick="newChat()"><span class="symbol">＋</span>Uusi keskustelu</button>
-  <button onclick="section('Kuvat')"><span class="symbol">▧</span>Kuvat</button>
-  <button onclick="section('Kirjasto')"><span class="symbol">◫</span>Kirjasto</button>
-  <button onclick="section('Historia')"><span class="symbol">◷</span>Historia</button>
+  <button class="active" type="button" onclick="newChat()"><span class="symbol">＋</span>Uusi keskustelu</button>
+  <button type="button" onclick="section('Kuvat')"><span class="symbol">▧</span>Kuvat</button>
+  <button type="button" onclick="section('Kirjasto')"><span class="symbol">◫</span>Kirjasto</button>
+  <button type="button" onclick="section('Historia')"><span class="symbol">◷</span>Historia</button>
  </nav>
- <div class="sidebar-bottom">
-  <div class="star">✦</div>
-  Tähtitaivas<br>on rajana.
- </div>
+ <div class="sidebar-bottom"><div class="star">✦</div>Tähtitaivas<br>on rajana.</div>
 </aside>
-
 <main>
  <div class="topbar"><div class="top-pill">✦ STARJOSKU AI STUDIO</div></div>
  <section class="hero">
@@ -201,73 +79,29 @@ main{flex:1;min-width:0;overflow-y:auto;position:relative;padding:35px 5vw 30px}
   <p>KUVITTELE · KYSY · LUO</p>
   <div class="hero-line"></div>
  </section>
-
  <section class="panel" id="home">
   <h2>Tervetuloa STARJOSKU AI:hin!</h2>
   <p class="hint">Mitä haluaisit tehdä tänään?</p>
   <div class="actions">
-   <button class="action" onclick="focusChat()"><span class="ico">☏</span>Aloita<br>keskustelu</button>
-   <button class="action" onclick="section('Kuvat')"><span class="ico">✧</span>Luo kuva</button>
-   <button class="action" onclick="section('Kirjasto')"><span class="ico">◇</span>Tutki<br>kirjastoa</button>
-   <button class="action" onclick="section('Historia')"><span class="ico">◷</span>Katso<br>historiaa</button>
+   <button class="action" type="button" onclick="focusChat()"><span class="ico">☏</span>Aloita<br>keskustelu</button>
+   <button class="action" type="button" onclick="section('Kuvat')"><span class="ico">✧</span>Luo kuva</button>
+   <button class="action" type="button" onclick="section('Kirjasto')"><span class="ico">◇</span>Tutki<br>kirjastoa</button>
+   <button class="action" type="button" onclick="section('Historia')"><span class="ico">◷</span>Katso<br>historiaa</button>
   </div>
  </section>
-
  <div id="messages"></div>
-
- <form class="chatbox" id="chatForm" onsubmit="return false;">
+ <form class="chatbox" id="chatForm">
   <span style="font-size:25px;color:#65cfff">✦</span>
   <input id="prompt" placeholder="Kirjoita viesti..." autocomplete="off">
   <button class="send" type="submit">➤</button>
  </form>
 </main>
 </div>
-
-
-const messages=document.getElementById('messages');
-const promptBox=document.getElementById('prompt');
-const home=document.getElementById('home');
-
-function focusChat(){promptBox.focus()}
-function newChat(){
- messages.innerHTML='';
- home.style.display='block';
- promptBox.value='';
- promptBox.focus();
-}
-function section(name){
- home.style.display='none';
- messages.innerHTML='';
- const title=document.createElement('h2');
- title.className='section-title';
- title.textContent=name;
- messages.appendChild(title);
- const info=document.createElement('div');
- info.className='message';
- info.textContent=name+'-osio on tulossa STARJOSKU AI:hin!';
- messages.appendChild(info);
-}
-document.getElementById('chatForm').addEventListener('submit',e=>{
- e.preventDefault();
- const value=promptBox.value.trim();
- if(!value)return;
- home.style.display='none';
- const user=document.createElement('div');
- user.className='message user';
- user.textContent=value;
- messages.appendChild(user);
- const reply=document.createElement('div');
- reply.className='message';
- reply.textContent='STARJOSKU AI:n tekoälyä ei ole vielä yhdistetty. Seuraavaksi lisätään oikea tekoäly!';
- messages.appendChild(reply);
- promptBox.value='';
-});
 <script>
 const messages = document.getElementById('messages');
 const promptBox = document.getElementById('prompt');
 const home = document.getElementById('home');
 const chatForm = document.getElementById('chatForm');
-
 const AI_URL = 'https://staraijosku.isoeelis2.workers.dev';
 let conversation = [];
 
@@ -292,31 +126,33 @@ function section(name) {
   messages.appendChild(title);
   const info = document.createElement('div');
   info.className = 'message';
-  info.textContent = name + '-osio on tulossa STARJOSKU AI:hin!';
+  info.textContent = name === 'Kuvat'
+    ? 'Kuvatyökalu lisätään seuraavaksi STARJOSKU AI:hin!'
+    : name === 'Kirjasto'
+    ? 'Kirjasto-osio lisätään seuraavaksi STARJOSKU AI:hin!'
+    : 'Keskusteluhistoria lisätään seuraavaksi STARJOSKU AI:hin!';
   messages.appendChild(info);
 }
 
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+chatForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
   const value = promptBox.value.trim();
   if (!value) return;
 
   home.style.display = 'none';
 
-  const user = document.createElement('div');
-  user.className = 'message user';
-  user.textContent = value;
-  messages.appendChild(user);
-
+  const userMessage = document.createElement('div');
+  userMessage.className = 'message user';
+  userMessage.textContent = value;
+  messages.appendChild(userMessage);
   promptBox.value = '';
 
   const reply = document.createElement('div');
-  reply.className = 'message';
-  reply.textContent = 'STARJOSKU AI miettii...';
+  reply.className = 'message assistant typing';
+  reply.textContent = 'STARJOSKU AI kirjoittaa';
   messages.appendChild(reply);
 
   conversation.push({ role: 'user', content: value });
-
   const sendButton = chatForm.querySelector('button[type="submit"]');
   sendButton.disabled = true;
 
@@ -328,87 +164,13 @@ chatForm.addEventListener('submit', async (e) => {
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'AI-virhe');
+    if (!response.ok) throw new Error(data.error || 'AI-yhteys epäonnistui.');
 
+    reply.classList.remove('typing');
     reply.textContent = data.reply || 'En saanut vastausta.';
     conversation.push({ role: 'assistant', content: reply.textContent });
   } catch (error) {
-    reply.textContent = 'Yhteysvirhe: ' + error.message;
-    conversation.pop();
-  } finally {
-    sendButton.disabled = false;
-  }
-});
-
-<script>
-const messages = document.getElementById('messages');
-const promptBox = document.getElementById('prompt');
-const home = document.getElementById('home');
-const chatForm = document.getElementById('chatForm');
-
-const AI_URL = 'https://staraijosku.isoeelis2.workers.dev';
-let conversation = [];
-
-function focusChat() {
-  promptBox.focus();
-}
-
-function newChat() {
-  messages.innerHTML = '';
-  conversation = [];
-  home.style.display = 'block';
-  promptBox.value = '';
-}
-
-function section(name) {
-  home.style.display = 'none';
-  messages.innerHTML = '';
-  const title = document.createElement('h2');
-  title.className = 'section-title';
-  title.textContent = name;
-  messages.appendChild(title);
-  const info = document.createElement('div');
-  info.className = 'message';
-  info.textContent = name + '-osio on tulossa STARJOSKU AI:hin!';
-  messages.appendChild(info);
-}
-
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const value = promptBox.value.trim();
-  if (!value) return;
-
-  home.style.display = 'none';
-
-  const user = document.createElement('div');
-  user.className = 'message user';
-  user.textContent = value;
-  messages.appendChild(user);
-  promptBox.value = '';
-
-  const reply = document.createElement('div');
-  reply.className = 'message';
-  reply.textContent = 'STARJOSKU AI miettii...';
-  messages.appendChild(reply);
-
-  conversation.push({ role: 'user', content: value });
-
-  const sendButton = chatForm.querySelector('button[type="submit"]');
-  sendButton.disabled = true;
-
-  try {
-    const response = await fetch(AI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: conversation })
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'AI-virhe');
-
-    reply.textContent = data.reply || 'En saanut vastausta.';
-    conversation.push({ role: 'assistant', content: reply.textContent });
-  } catch (error) {
+    reply.classList.remove('typing');
     reply.textContent = 'Yhteysvirhe: ' + error.message;
     conversation.pop();
   } finally {

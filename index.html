@@ -1,314 +1,520 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080817">
 <title>STARJOSKU AI</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;700;800&display=swap');
+:root{color-scheme:dark;--bg:#080817;--line:#29294e;--text:#f4f2ff;--muted:#aaa8c8;--pink:#ff4fd8;--cyan:#54e7ff;--purple:#9b72ff}
 *{box-sizing:border-box}
-body{margin:0;color:#eff7ff;font-family:Inter,Arial,sans-serif;background:#020817;min-height:100vh}
-#universe{position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 72% 80%,#19266c,transparent 38%),radial-gradient(ellipse at 15% 65%,#101e59,transparent 35%),#020817}
-.stars{position:absolute;inset:-100%;background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 80px,#9bdcff,transparent),radial-gradient(2px 2px at 160px 140px,#fff,transparent);background-size:250px 200px;animation:drift 100s linear infinite}
-@keyframes drift{to{transform:translate(300px,180px)}}
-.moon{position:absolute;right:7%;top:7%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f1fcff,#76baff 25%,#285bb8 58%,#071b50 78%);box-shadow:0 0 35px #3b9fff,0 0 100px #126bff88}
-.layout{display:flex;min-height:100vh;position:relative}
-.sidebar{width:260px;flex-shrink:0;padding:28px 20px;background:linear-gradient(180deg,#020b20ef,#07132be8);border-right:1px solid #277bdb66;display:flex;flex-direction:column;z-index:2}
-.brand{text-align:center;margin-bottom:38px}
-.brand-moon{font-size:54px;color:#8bd5ff;text-shadow:0 0 25px #168cff}
-.brand-name{font-family:Orbitron,sans-serif;font-weight:900;font-size:21px;letter-spacing:2px}
-.brand-ai{font-family:Orbitron,sans-serif;font-size:13px;letter-spacing:8px;color:#68caff;margin-top:7px}
-.nav{display:flex;flex-direction:column;gap:13px}
-.nav button{display:flex;align-items:center;gap:15px;width:100%;padding:16px 14px;border-radius:24px;color:#dceaff;background:#071a3dcc;border:1px solid #236acb88;font-size:14px;font-weight:700;cursor:pointer}
-.nav button:hover,.nav button.active{background:linear-gradient(110deg,#0756a9aa,#36228aaa);border-color:#52c5ff;box-shadow:0 0 20px #168cff66}
-.nav .symbol{font-size:23px;color:#78cfff;width:25px;text-align:center}
-.sidebar-bottom{margin-top:auto;text-align:center;color:#85a9d8;font-style:italic;line-height:1.6}
-.sidebar-bottom .star{font-size:30px;color:#64caff}
-main{flex:1;min-width:0;overflow-y:auto;padding:30px 5vw}
-.topbar{display:flex;justify-content:flex-end}
-.top-pill{border:1px solid #397cc788;border-radius:30px;padding:10px 16px;background:#061a3b99;color:#a9d8ff;font-size:12px;font-weight:800;letter-spacing:1px}
-.hero{text-align:center;margin:5vh auto 30px}
-.hero h1{font-family:Orbitron,sans-serif;font-size:clamp(35px,5vw,66px);font-weight:900;letter-spacing:3px;margin:0;background:linear-gradient(180deg,#fff 15%,#8bd7ff 55%,#3985ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px #168cff99)}
-.hero p{font-size:19px;color:#9acfff;font-weight:700;letter-spacing:2px}
-.hero-line{width:min(500px,80%);height:1px;margin:20px auto;background:linear-gradient(90deg,transparent,#47bfff,transparent)}
-.panel{width:min(900px,100%);margin:0 auto;padding:30px;border-radius:35px;border:1px solid #379dffbb;background:linear-gradient(135deg,#06183ddd,#080d2cdd);box-shadow:0 0 35px #087cff44}
-.panel h2{text-align:center;font-size:27px;margin:0 0 12px}
-.hint{text-align:center;color:#9bbfe9;margin:0 0 25px}
-.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.action{min-height:120px;border:1px solid #348effaa;border-radius:25px;background:linear-gradient(145deg,#12366b,#07152f);color:white;cursor:pointer;padding:15px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:14px;font-weight:800}
-.action:hover{transform:translateY(-4px);box-shadow:0 0 28px #168cff99}
-.ico{font-size:34px;color:#65d4ff}
-.chatbox{width:min(900px,100%);margin:25px auto 0;border:1px solid #348fffaa;border-radius:30px;background:#04132bdc;box-shadow:0 0 28px #087cff55;display:flex;align-items:center;gap:10px;padding:10px 12px 10px 20px}
-.chatbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:16px;padding:13px}
-.chatbox input::placeholder{color:#86a8d2}
-.send{width:52px;height:52px;border-radius:50%;border:1px solid #a4e6ff;color:white;font-size:23px;cursor:pointer;background:radial-gradient(circle at 35% 30%,#53baff,#0754bd);box-shadow:0 0 22px #168cffaa}
-.send:disabled{opacity:.5;cursor:wait}
-#messages{width:min(900px,100%);margin:20px auto;display:flex;flex-direction:column;gap:12px}
-.message{padding:15px 20px;border-radius:23px;max-width:85%;line-height:1.5;background:#102b50dd;border:1px solid #3984ce66;white-space:pre-wrap;overflow-wrap:anywhere}
-.message.user{align-self:flex-end;background:#243a77dd;border-color:#7964e9}
-.message.assistant{align-self:flex-start}
-.section-title{font-size:30px;margin:25px 0;color:#9bdcff}
-.typing{color:#9bdcff;font-weight:700}
-.typing::after{content:"";display:inline-block;animation:dots 1.2s steps(4,end) infinite}
-@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%,100%{content:"..."}}
-.small-button{border:1px solid #398eff;background:#0b2850;color:white;padding:10px 15px;border-radius:15px;cursor:pointer;margin:5px}
-.history-item{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border:1px solid #3984ce66;border-radius:15px;margin:10px 0;background:#102b50aa}
-.history-item button{background:#153b70;border:1px solid #398eff;color:white;padding:9px;border-radius:10px;cursor:pointer}
-.upload-area{padding:22px;border:1px dashed #65cfff;border-radius:20px;text-align:center;margin:15px 0}
-#imagePreview{max-width:100%;max-height:320px;display:none;margin:15px auto;border-radius:18px}
-#imageQuestion{width:100%;padding:15px;border-radius:15px;background:#061a3b;color:white;border:1px solid #398eff;margin:10px 0}
-@media(max-width:760px){.sidebar{width:76px;padding:20px 7px}.brand-name{font-size:0}.brand-name:after{content:"SJ";font-size:18px}.brand-moon{font-size:35px}.brand-ai{display:none}.nav button{justify-content:center;padding:14px 4px;font-size:0}.nav .symbol{font-size:23px}.sidebar-bottom{font-size:0}main{padding:20px 12px}.moon{width:110px;height:110px;right:-20px}.panel{padding:22px 14px}.actions{grid-template-columns:repeat(2,1fr)}.action{min-height:100px}.chatbox input{font-size:14px}}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#28205b 0,transparent 48%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif;height:100dvh;overflow:hidden}
+button,textarea{font:inherit}
+button{cursor:pointer;color:inherit}
+.app{height:100dvh;display:flex}
+.sidebar{width:285px;flex:0 0 285px;background:rgba(10,10,28,.94);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 13px;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 8px 22px}
+.brand-mark{width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,var(--pink),var(--purple),var(--cyan));display:grid;place-items:center;color:#080817;font-weight:900;font-size:20px;box-shadow:0 0 25px #a15cff55}
+.brand-name{font-weight:900;letter-spacing:1.5px;font-size:16px}
+.brand-sub{font-size:10px;color:var(--muted);letter-spacing:2px}
+.new-chat{border:1px solid #51418a;background:linear-gradient(110deg,#30205a,#191a3e);border-radius:12px;padding:12px;text-align:left;font-weight:700;margin-bottom:20px}
+.new-chat:hover,.tool-btn:hover{border-color:var(--cyan);box-shadow:0 0 18px #54e7ff20}
+.history-head{display:flex;justify-content:space-between;padding:0 7px 9px;color:var(--muted);font-size:11px;letter-spacing:1.4px;text-transform:uppercase}
+.history-list{overflow:auto;flex:1}
+.history-item{display:flex;align-items:center;gap:7px;padding:9px;border-radius:9px;margin:2px 0;color:#d8d5f3;cursor:pointer;border:1px solid transparent}
+.history-item:hover{background:#ffffff0b}
+.history-item.active{background:#28204b;border-color:#51418a}
+.history-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-size:13px}
+.delete-chat{border:0;background:transparent;color:#aaa8c8;padding:3px 5px;opacity:.65}
+.delete-chat:hover{color:#ff80d8;opacity:1}
+.side-foot{border-top:1px solid var(--line);padding:13px 6px 0;color:var(--muted);font-size:11px}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#54e7a6;margin-right:6px;box-shadow:0 0 8px #54e7a6}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;position:relative}
+.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 25px;border-bottom:1px solid #ffffff12;background:#0b0b1e88;backdrop-filter:blur(12px)}
+.top-title{font-weight:700;letter-spacing:.4px}
+.top-right{font-size:12px;color:var(--muted)}
+.mobile-menu{display:none;border:0;background:transparent;font-size:22px}
+.chat-area{flex:1;overflow:auto;padding:30px 20px 18px;scroll-behavior:smooth}
+.welcome{max-width:760px;margin:9vh auto 0;text-align:center}
+.orb{width:76px;height:76px;margin:0 auto 22px;border-radius:25px;background:linear-gradient(135deg,#ff4fd8,#9b72ff 55%,#54e7ff);display:grid;place-items:center;color:#09091b;font-size:34px;font-weight:900;box-shadow:0 0 55px #a15cff55;transform:rotate(-7deg)}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin:0 0 13px;letter-spacing:-1.5px}
+h1 span{background:linear-gradient(90deg,var(--pink),#b48aff,var(--cyan));background-clip:text;color:transparent}
+.welcome p{color:var(--muted);margin:0 auto 28px;max-width:520px}
+.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:620px;margin:auto}
+.suggestion{background:#12122b;border:1px solid var(--line);border-radius:13px;padding:13px;text-align:left;color:#dedaf8;font-size:13px}
+.suggestion:hover{border-color:#8f72ff;background:#1a1838}
+.messages{max-width:850px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.message{display:flex;gap:12px;align-items:flex-start}
+.avatar{flex:0 0 32px;width:32px;height:32px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:800;background:#28204b;color:#d7c7ff}
+.message.user .avatar{background:#153847;color:#8af0ff}
+.bubble{min-width:0;max-width:min(760px,calc(100% - 44px));padding:12px 15px;border:1px solid #29294e;background:#111128;border-radius:4px 15px 15px 15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.message.user .bubble{background:#171934;border-color:#37365f}
+.generated-image{display:block;width:min(100%,600px);height:auto;border-radius:12px;margin-top:10px;border:1px solid #ffffff22}
+.image-actions{margin-top:8px;font-size:12px;color:var(--muted)}
+.image-actions a{color:var(--cyan)}
+.typing{color:var(--muted);font-size:13px;padding:7px 0}
+.composer-wrap{padding:12px 20px 19px;background:linear-gradient(transparent,#080817 22%)}
+.composer{max-width:850px;margin:auto;border:1px solid #45406f;background:#111128;border-radius:17px;padding:10px;box-shadow:0 0 30px #6e49cb15}
+.composer textarea{width:100%;resize:none;max-height:170px;min-height:48px;border:0;outline:0;background:transparent;color:var(--text);padding:8px 9px}
+.composer-bottom{display:flex;align-items:center;justify-content:space-between;padding:4px 3px 1px}
+.tools{display:flex;gap:7px}
+.tool-btn{border:1px solid #37365d;background:#191936;border-radius:10px;padding:7px 11px;font-size:12px;color:#d7d3f1}
+.tool-btn.active{border-color:var(--pink);color:#ff9ce8}
+.send{border:0;border-radius:11px;padding:9px 17px;background:linear-gradient(100deg,#d63fb8,#8b61f2);font-weight:800;color:white;box-shadow:0 0 18px #9b72ff44}
+.send:disabled{opacity:.45;cursor:not-allowed}
+.hint{text-align:center;color:#777594;font-size:10px;margin-top:8px}
+.overlay{display:none}
+@media(max-width:760px){
+.sidebar{position:fixed;inset:0 auto 0 0;transform:translateX(-102%);transition:transform .2s;width:285px;box-shadow:15px 0 45px #0008}
+.sidebar.open{transform:translateX(0)}
+.overlay.show{display:block;position:fixed;inset:0;background:#0009;z-index:4}
+.mobile-menu{display:block}
+.topbar{padding:0 14px}
+.chat-area{padding:20px 13px}
+.composer-wrap{padding:9px 10px 13px}
+.suggestions{grid-template-columns:1fr}
+.welcome{margin-top:6vh}
+.top-right{font-size:10px}
+.bubble{padding:11px 12px}
+}
 </style>
 </head>
 <body>
-<div id="universe"><div class="stars"></div><div class="moon"></div></div>
-<div class="layout">
-<aside class="sidebar">
- <div class="brand">
-  <div class="brand-moon">☾</div>
-  <div class="brand-name">STARJOSKU</div>
-  <div class="brand-ai">✦ AI ✦</div>
- </div>
- <nav class="nav">
-  <button type="button" onclick="newChat()"><span class="symbol">＋</span>Uusi keskustelu</button>
-  <button type="button" onclick="showImages()"><span class="symbol">▧</span>Kuvat</button>
-  <button type="button" onclick="showLibrary()"><span class="symbol">◫</span>Kirjasto</button>
-  <button type="button" onclick="showHistory()"><span class="symbol">◷</span>Historia</button>
- </nav>
- <div class="sidebar-bottom"><div class="star">✦</div>Tähtitaivas<br>on rajana.</div>
-</aside>
-<main>
- <div class="topbar"><div class="top-pill">✦ STARJOSKU AI STUDIO</div></div>
- <section class="hero">
-  <h1>STARJOSKU AI</h1>
-  <p>KUVITTELE · KYSY · LUO</p>
-  <div class="hero-line"></div>
- </section>
- <section class="panel" id="home">
-  <h2>Tervetuloa STARJOSKU AI:hin!</h2>
-  <p class="hint">Mitä haluaisit tehdä tänään?</p>
-  <div class="actions">
-   <button class="action" type="button" onclick="focusChat()"><span class="ico">☏</span>Aloita keskustelu</button>
-   <button class="action" type="button" onclick="showImages()"><span class="ico">✧</span>Tutki kuvaa</button>
-   <button class="action" type="button" onclick="showLibrary()"><span class="ico">◇</span>Kirjasto</button>
-   <button class="action" type="button" onclick="showHistory()"><span class="ico">◷</span>Historia</button>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">✦</div>
+    <div>
+      <div class="brand-name">STARJOSKU AI</div>
+      <div class="brand-sub">COSMIC INTELLIGENCE</div>
+    </div>
   </div>
- </section>
- <div id="messages"></div>
- <form class="chatbox" id="chatForm">
-  <span style="font-size:25px;color:#65cfff">✦</span>
-  <input id="prompt" placeholder="Kirjoita viesti..." autocomplete="off">
-  <button class="send" type="submit">➤</button>
- </form>
+  <button class="new-chat" id="newChat">＋ &nbsp; Uusi keskustelu</button>
+  <div class="history-head"><span>Viimeisimmät</span><span id="historyCount">0</span></div>
+  <div class="history-list" id="historyList"></div>
+  <div class="side-foot">
+    <span class="status-dot"></span> STARJOSKU AI valmiina<br>
+    <span style="padding-left:13px">Keskustelut tallennetaan tälle laitteelle</span>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="mobile-menu" id="menuBtn" aria-label="Avaa valikko">☰</button>
+      <div class="top-title" id="topTitle">Uusi keskustelu</div>
+    </div>
+    <div class="top-right">✧ &nbsp; Groq AI + OpenAI Images</div>
+  </header>
+
+  <section class="chat-area" id="chatArea">
+    <div class="welcome" id="welcome">
+      <div class="orb">✦</div>
+      <h1>Tervetuloa <span>STARJOSKU AI:hin</span></h1>
+      <p>Ideoi, kysy, kirjoita ja luo kuvia. Mitä tehdään tänään?</p>
+      <div class="suggestions">
+        <button class="suggestion" data-prompt="Keksi minulle upea scifi-tarina.">✧ &nbsp; Keksi scifi-tarina</button>
+        <button class="suggestion" data-prompt="Auta minua suunnittelemaan hieno verkkosivu.">⌘ &nbsp; Suunnittele verkkosivu</button>
+        <button class="suggestion" data-prompt="Selitä tekoäly helposti ymmärrettävästi.">☼ &nbsp; Selitä jokin asia</button>
+        <button class="suggestion" data-prompt="Anna viisi luovaa ideaa viikonlopuksi.">✦ &nbsp; Luo uusia ideoita</button>
+      </div>
+    </div>
+    <div class="messages" id="messages"></div>
+  </section>
+
+  <div class="composer-wrap">
+    <div class="composer">
+      <textarea id="prompt" rows="1" placeholder="Kirjoita viesti STARJOSKU AI:lle..."></textarea>
+      <div class="composer-bottom">
+        <div class="tools">
+          <button class="tool-btn" id="imageMode" title="Luo kuva tekstikuvauksesta">✧ Luo kuva</button>
+        </div>
+        <button class="send" id="sendBtn">Lähetä ↑</button>
+      </div>
+    </div>
+    <div class="hint">STARJOSKU AI voi tehdä virheitä. Tarkista tärkeät tiedot.</div>
+  </div>
 </main>
 </div>
 
 <script>
-const AI_URL = 'https://staraijosku.isoeelis2.workers.dev';
-const messages = document.getElementById('messages');
-const promptBox = document.getElementById('prompt');
-const home = document.getElementById('home');
-const chatForm = document.getElementById('chatForm');
+(() => {
+  const API_URL = "https://staraijosku.isoeelis2.workers.dev";
+  const DB_NAME = "starjosku-ai-history";
+  const STORE = "conversations";
 
-let conversation = [];
-let savedChats = JSON.parse(localStorage.getItem('starjosku_history') || '[]');
-let selectedImage = null;
+  let db;
+  let currentId = null;
+  let currentMessages = [];
+  let imageMode = false;
+  let busy = false;
 
-function saveHistory() {
-  localStorage.setItem('starjosku_history', JSON.stringify(savedChats));
-}
+  const $ = id => document.getElementById(id);
 
-function saveCurrentChat() {
-  if (!conversation.length) return;
-  const first = conversation.find(m => m.role === 'user');
-  const title = first ? first.content.slice(0, 45) : 'Uusi keskustelu';
-  const chat = {
-    id: Date.now(),
-    title,
-    date: new Date().toLocaleString('fi-FI'),
-    messages: [...conversation]
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+
+      req.onupgradeneeded = () => {
+        const d = req.result;
+        if (!d.objectStoreNames.contains(STORE)) {
+          const s = d.createObjectStore(STORE, { keyPath: "id" });
+          s.createIndex("updatedAt", "updatedAt");
+        }
+      };
+
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  function allChats() {
+    return new Promise((resolve, reject) => {
+      const r = db.transaction(STORE).objectStore(STORE).getAll();
+      r.onsuccess = () => resolve(r.result.sort((a,b) => b.updatedAt - a.updatedAt));
+      r.onerror = () => reject(r.error);
+    });
+  }
+
+  function saveChat() {
+    if (!currentId || !currentMessages.length) return;
+
+    const first = currentMessages.find(m => m.role === "user");
+    const title = (first?.content || "Uusi keskustelu")
+      .replace(/\s+/g, " ")
+      .slice(0, 48);
+
+    const record = {
+      id: currentId,
+      title,
+      messages: currentMessages,
+      updatedAt: Date.now()
+    };
+
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).put(record);
+      tx.oncomplete = () => {
+        renderHistory();
+        resolve();
+      };
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function renderHistory() {
+    const chats = await allChats();
+    $("historyCount").textContent = chats.length;
+
+    const list = $("historyList");
+    list.innerHTML = "";
+
+    chats.forEach(chat => {
+      const row = document.createElement("div");
+      row.className = "history-item" + (chat.id === currentId ? " active" : "");
+
+      const title = document.createElement("span");
+      title.className = "history-title";
+      title.textContent = chat.title || "Keskustelu";
+      title.onclick = () => loadChat(chat.id);
+
+      const del = document.createElement("button");
+      del.className = "delete-chat";
+      del.textContent = "×";
+      del.title = "Poista keskustelu";
+
+      del.onclick = async e => {
+        e.stopPropagation();
+
+        if (!confirm("Poistetaanko tämä keskustelu?")) return;
+
+        await new Promise((res, rej) => {
+          const tx = db.transaction(STORE, "readwrite");
+          tx.objectStore(STORE).delete(chat.id);
+          tx.oncomplete = res;
+          tx.onerror = () => rej(tx.error);
+        });
+
+        if (currentId === chat.id) newChat();
+        renderHistory();
+      };
+
+      row.append(title, del);
+      row.onclick = () => loadChat(chat.id);
+      list.append(row);
+    });
+  }
+
+  function newChat() {
+    currentId = crypto.randomUUID();
+    currentMessages = [];
+
+    $("messages").innerHTML = "";
+    $("welcome").style.display = "block";
+    $("topTitle").textContent = "Uusi keskustelu";
+
+    renderHistory();
+    closeMenu();
+    $("prompt").focus();
+  }
+
+  async function loadChat(id) {
+    const chat = await new Promise((resolve, reject) => {
+      const r = db.transaction(STORE).objectStore(STORE).get(id);
+      r.onsuccess = () => resolve(r.result);
+      r.onerror = () => reject(r.error);
+    });
+
+    if (!chat) return;
+
+    currentId = chat.id;
+    currentMessages = chat.messages || [];
+
+    $("welcome").style.display = "none";
+    $("topTitle").textContent = chat.title || "Keskustelu";
+
+    renderMessages();
+    renderHistory();
+    closeMenu();
+  }
+
+  function renderMessages() {
+    const root = $("messages");
+    root.innerHTML = "";
+    currentMessages.forEach(m => addMessageElement(m));
+    scrollBottom();
+  }
+
+  function addMessageElement(m) {
+    const root = $("messages");
+    const item = document.createElement("div");
+    item.className = "message " + m.role;
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = m.role === "user" ? "S" : "✦";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+
+    if (m.content) {
+      const text = document.createElement("div");
+      text.textContent = m.content;
+      bubble.append(text);
+    }
+
+    if (m.image) {
+      const img = document.createElement("img");
+      img.className = "generated-image";
+      img.src = m.image;
+      img.alt = "STARJOSKU AI:n luoma kuva";
+      bubble.append(img);
+
+      const actions = document.createElement("div");
+      actions.className = "image-actions";
+
+      const link = document.createElement("a");
+      link.href = m.image;
+      link.download = "starjosku-ai-kuva.png";
+      link.textContent = "Lataa kuva";
+
+      actions.append(link);
+      bubble.append(actions);
+    }
+
+    item.append(avatar, bubble);
+    root.append(item);
+    return item;
+  }
+
+  function scrollBottom() {
+    $("chatArea").scrollTop = $("chatArea").scrollHeight;
+  }
+
+  function setBusy(v) {
+    busy = v;
+    $("sendBtn").disabled = v;
+    $("sendBtn").textContent = v ? "Hetki…" : "Lähetä ↑";
+  }
+
+  async function send() {
+    if (busy) return;
+
+    const value = $("prompt").value.trim();
+    if (!value) return;
+
+    $("prompt").value = "";
+    resizeInput();
+    $("welcome").style.display = "none";
+
+    currentMessages.push({ role: "user", content: value });
+    addMessageElement({ role: "user", content: value });
+
+    await saveChat();
+    setBusy(true);
+
+    const wait = document.createElement("div");
+    wait.className = "typing";
+    wait.textContent = imageMode
+      ? "✧ Luodaan kuvaa…"
+      : "✦ STARJOSKU AI kirjoittaa…";
+
+    $("messages").append(wait);
+    scrollBottom();
+
+    try {
+      if (imageMode) {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "image",
+            prompt: value
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Kuvan luonti epäonnistui.");
+        }
+
+        const message = {
+          role: "assistant",
+          content: "Valmis! Tässä luomasi kuva. ✨",
+          image: data.image
+        };
+
+        currentMessages.push(message);
+        wait.remove();
+        addMessageElement(message);
+        await saveChat();
+
+      } else {
+        const history = currentMessages
+          .filter(m => m.role === "user" || m.role === "assistant")
+          .map(m => ({
+            role: m.role,
+            content: m.content || ""
+          }));
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "chat",
+            messages: history
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Vastaus epäonnistui.");
+        }
+
+        const message = {
+          role: "assistant",
+          content: data.answer
+        };
+
+        currentMessages.push(message);
+        wait.remove();
+        addMessageElement(message);
+        await saveChat();
+      }
+
+      imageMode = false;
+      $("imageMode").classList.remove("active");
+      $("prompt").placeholder = "Kirjoita viesti STARJOSKU AI:lle...";
+
+    } catch (error) {
+      wait.remove();
+
+      const message = {
+        role: "assistant",
+        content: "Virhe: " + error.message
+      };
+
+      currentMessages.push(message);
+      addMessageElement(message);
+      await saveChat();
+
+    } finally {
+      setBusy(false);
+      $("prompt").focus();
+      scrollBottom();
+    }
+  }
+
+  function resizeInput() {
+    const t = $("prompt");
+    t.style.height = "auto";
+    t.style.height = Math.min(t.scrollHeight, 170) + "px";
+  }
+
+  function closeMenu() {
+    $("sidebar").classList.remove("open");
+    $("overlay").classList.remove("show");
+  }
+
+  $("newChat").onclick = newChat;
+  $("sendBtn").onclick = send;
+
+  $("prompt").addEventListener("input", resizeInput);
+
+  $("prompt").addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+
+  $("imageMode").onclick = () => {
+    imageMode = !imageMode;
+    $("imageMode").classList.toggle("active", imageMode);
+
+    $("prompt").placeholder = imageMode
+      ? "Kuvaile kuva, jonka haluat luoda…"
+      : "Kirjoita viesti STARJOSKU AI:lle...";
   };
-  savedChats.unshift(chat);
-  savedChats = savedChats.slice(0, 40);
-  saveHistory();
-}
 
-function focusChat() {
-  home.style.display = 'none';
-  promptBox.focus();
-}
-
-function newChat() {
-  saveCurrentChat();
-  conversation = [];
-  messages.innerHTML = '';
-  home.style.display = 'block';
-  promptBox.value = '';
-  selectedImage = null;
-}
-
-function showHistory() {
-  home.style.display = 'none';
-  messages.innerHTML = '<h2 class="section-title">Keskusteluhistoria</h2>';
-  if (!savedChats.length) {
-    messages.innerHTML += '<div class="message">Tallennettuja keskusteluja ei vielä ole. Aloita keskustelu, niin se tallentuu tänne.</div>';
-    return;
-  }
-  savedChats.forEach(chat => {
-    const item = document.createElement('div');
-    item.className = 'history-item';
-    const title = document.createElement('span');
-    title.textContent = chat.title + ' — ' + chat.date;
-    title.style.flex = '1';
-    const open = document.createElement('button');
-    open.textContent = 'Avaa';
-    open.onclick = () => openChat(chat.id);
-    const remove = document.createElement('button');
-    remove.textContent = 'Poista';
-    remove.onclick = () => {
-      savedChats = savedChats.filter(c => c.id !== chat.id);
-      saveHistory();
-      showHistory();
+  document.querySelectorAll(".suggestion").forEach(b => {
+    b.onclick = () => {
+      $("prompt").value = b.dataset.prompt;
+      resizeInput();
+      $("prompt").focus();
     };
-    item.append(title, open, remove);
-    messages.appendChild(item);
-  });
-}
-
-function openChat(id) {
-  const chat = savedChats.find(c => c.id === id);
-  if (!chat) return;
-  conversation = [...chat.messages];
-  home.style.display = 'none';
-  messages.innerHTML = '';
-  conversation.forEach(m => addMessage(m.content, m.role === 'user' ? 'user' : 'assistant'));
-}
-
-function addMessage(text, role) {
-  const el = document.createElement('div');
-  el.className = 'message ' + role;
-  el.textContent = text;
-  messages.appendChild(el);
-  el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  return el;
-}
-
-function showLibrary() {
-  home.style.display = 'none';
-  messages.innerHTML = '<h2 class="section-title">Kirjasto</h2><div class="message">Tämä on STARJOSKU AI:n kirjasto. Tallennetut keskustelut löytyvät Historia-osiosta. Voit myös aloittaa uuden keskustelun vasemmalta.</div>';
-}
-
-function showImages() {
-  home.style.display = 'none';
-  messages.innerHTML = `
-    <h2 class="section-title">Kuvat</h2>
-    <div class="panel">
-      <h2>Tutki kuvaa STARJOSKU AI:lla</h2>
-      <p class="hint">Lataa kuva ja kysy tekoälyltä siitä.</p>
-      <div class="upload-area">
-        <input type="file" id="imageFile" accept="image/png,image/jpeg,image/webp">
-        <img id="imagePreview" alt="Valittu kuva">
-      </div>
-      <input id="imageQuestion" placeholder="Mitä haluat tietää kuvasta?">
-      <button class="small-button" id="analyzeButton" type="button">✦ Analysoi kuva</button>
-      <div id="imageResult"></div>
-    </div>`;
-
-  document.getElementById('imageFile').addEventListener('change', event => {
-    const file = event.target.files[0];
-    if (!file) return;
-    if (file.size > 3 * 1024 * 1024) {
-      alert('Kuva on liian suuri. Valitse alle 3 Mt kuva.');
-      event.target.value = '';
-      return;
-    }
-    if (!file.type.startsWith('image/')) {
-      alert('Valitse kuvatiedosto.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      selectedImage = reader.result;
-      const preview = document.getElementById('imagePreview');
-      preview.src = selectedImage;
-      preview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
   });
 
-  document.getElementById('analyzeButton').addEventListener('click', analyzeImage);
-}
+  $("menuBtn").onclick = () => {
+    $("sidebar").classList.add("open");
+    $("overlay").classList.add("show");
+  };
 
-async function analyzeImage() {
-  const result = document.getElementById('imageResult');
-  const question = document.getElementById('imageQuestion').value.trim() || 'Kerro, mitä kuvassa näkyy. Vastaa suomeksi.';
-  if (!selectedImage) {
-    result.textContent = 'Valitse ensin kuva.';
-    return;
-  }
-  result.className = 'message assistant typing';
-  result.textContent = 'STARJOSKU AI tutkii kuvaa';
-  const button = document.getElementById('analyzeButton');
-  button.disabled = true;
-  try {
-    const response = await fetch(AI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        mode: 'image',
-        imageDataUrl: selectedImage,
-        question
-      })
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'Kuvan analysointi epäonnistui.');
-    result.classList.remove('typing');
-    result.textContent = data.reply;
-  } catch (error) {
-    result.classList.remove('typing');
-    result.textContent = 'Virhe: ' + error.message;
-  } finally {
-    button.disabled = false;
-  }
-}
+  $("overlay").onclick = closeMenu;
 
-chatForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const value = promptBox.value.trim();
-  if (!value) return;
+  openDB().then(async d => {
+    db = d;
+    await renderHistory();
 
-  home.style.display = 'none';
-  addMessage(value, 'user');
-  promptBox.value = '';
+    const chats = await allChats();
 
-  const reply = addMessage('STARJOSKU AI kirjoittaa', 'assistant');
-  reply.classList.add('typing');
+    if (chats.length) {
+      await loadChat(chats[0].id);
+    } else {
+      newChat();
+    }
 
-  conversation.push({ role: 'user', content: value });
-  const button = chatForm.querySelector('button');
-  button.disabled = true;
+  }).catch(err => {
+    console.error(err);
+    alert("Keskusteluhistorian avaaminen epäonnistui. Kokeile päivittää sivu.");
+  });
 
-  try {
-    const response = await fetch(AI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: conversation })
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || 'AI-yhteys epäonnistui.');
-    reply.classList.remove('typing');
-    reply.textContent = data.reply || 'En saanut vastausta.';
-    conversation.push({ role: 'assistant', content: reply.textContent });
-    saveCurrentChat();
-  } catch (error) {
-    reply.classList.remove('typing');
-    reply.textContent = 'Yhteysvirhe: ' + error.message;
-    conversation.pop();
-  } finally {
-    button.disabled = false;
-  }
-});
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STARJOSKU AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090b14;color:#f5f5ff;font-family:Arial,sans-serif}
+header{padding:22px;text-align:center;border-bottom:1px solid #252943}
+h1{margin:0;color:#9c8cff;letter-spacing:3px}
+header p{color:#aaa;margin:8px}
+main{max-width:800px;margin:35px auto;padding:15px}
+#chat{height:55vh;min-height:300px;overflow:auto;background:#111525;border:1px solid #292e49;border-radius:18px;padding:18px}
+.msg{padding:13px 16px;border-radius:14px;margin:12px 0;line-height:1.5;white-space:pre-wrap}
+.bot{background:#202541;margin-right:12%}
+.user{background:#5141a8;margin-left:12%}
+form{display:flex;gap:10px;margin-top:15px}
+input{flex:1;min-width:0;background:#171c2d;color:white;border:1px solid #353b5a;border-radius:12px;padding:15px;font-size:16px}
+button{background:#8875ff;color:white;border:0;border-radius:12px;padding:14px 20px;font-weight:bold;cursor:pointer}
+small{display:block;color:#888;text-align:center;margin-top:16px}
+</style>
+</head>
+<body>
+<header>
+<h1>STARJOSKU AI</h1>
+<p>Oma tekoälysi · Suomeksi · Aina valmiina</p>
+</header>
+<main>
+<div id="chat">
+<div class="msg bot">Hei! Olen STARJOSKU AI. 👋 Mitä haluaisit tehdä tänään?</div>
+</div>
+<form id="form">
+<input id="message" placeholder="Kirjoita viesti..." autocomplete="off" required>
+<button>Lähetä</button>
+</form>
+<small>STARJOSKU AI – oma tekoälysivustosi</small>
+</main>
+<script>
+const chat=document.getElementById('chat');
+const form=document.getElementById('form');
+const input=document.getElementById('message');
+function add(text,who){
+ const div=document.createElement('div');
+ div.className='msg '+who;
+ div.textContent=text;
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
+}
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ const text=input.value.trim();
+ if(!text)return;
+ add(text,'user');
+ input.value='';
+ add('Tekoälyyhteyttä ei ole vielä yhdistetty. Seuraavaksi lisätään STARJOSKU AI:n tekoälyrajapinta.','bot');
+});
+</script>
+</body>
+</html>
